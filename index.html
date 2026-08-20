@@ -1,115 +1,37 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#fff4f8" />
-  <title>Немного обо мне 💗</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#2a0d02">
+<title>Кирпич Крыса — все ссылки</title>
+<meta name="description" content="Все ссылки Кирпич Крысы: Telegram, чат, TikTok, Twitch, YouTube и DonationAlerts.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="secret.css?v=1">
 </head>
 <body>
+  <div class="top-glow"></div>
+
   <main class="page">
-    <section class="hero card">
-      <div class="sparkles" aria-hidden="true">♡ ✦ ♡</div>
-      <p class="eyebrow">маленькая анкета</p>
-      <h1>Привет 💗</h1>
-      <p class="intro">Вот мой короткий видос. Посмотри его и, если хочешь, ответь на один маленький вопрос :)</p>
-
-      <div class="video-shell">
-        <div class="video-placeholder" id="videoPlaceholder">
-          <div class="play">▶</div>
-          <strong>Здесь будет видео</strong>
-          <span>добавим его, когда ты пришлёшь файл</span>
-        </div>
-        <video id="profileVideo" controls playsinline preload="metadata" hidden></video>
+    <section class="hero">
+      <div class="avatar-frame">
+      <div class="avatar-inner">
+        <img src="kirpich-avatar.png" alt="Кирпич Крыса">
       </div>
+    </div>
 
-      <button class="primary" id="openPoll">Пройти опрос 💗</button>
-      <p class="tiny">Опрос анонимный. Ник, имя и контакты не спрашиваются.</p>
-    </section>
-
-    <section class="results card">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">результаты</p>
-          <h2>Что ответили люди?</h2>
-        </div>
-        <div class="total" id="totalVotes">0 голосов</div>
-      </div>
-
-      <div id="backendNotice" class="notice">Статистика появится после подключения базы.</div>
-
-      <div class="result-grid">
-        <article class="result-box yes-box">
-          <span>Да 💗</span>
-          <strong id="yesPercent">—%</strong>
-          <div class="bar"><i id="yesBar"></i></div>
-        </article>
-        <article class="result-box no-box">
-          <span>Нет</span>
-          <strong id="noPercent">—%</strong>
-          <div class="bar"><i id="noBar"></i></div>
-        </article>
-      </div>
-
-      <div class="demographics">
-        <div>
-          <h3>Возраст голосовавших</h3>
-          <div id="ageStats" class="chips muted">Пока нет данных</div>
-        </div>
-        <div>
-          <h3>Пол голосовавших</h3>
-          <div id="genderStats" class="chips muted">Пока нет данных</div>
-        </div>
+      <div class="brand">
+        <div class="eyebrow">ВСЕ ССЫЛКИ</div>
+        <h1>КИРПИЧ <span>КРЫСА</span></h1>
+        <p>Стримы, соцсети, чат и поддержка.</p>
       </div>
     </section>
 
-    <footer>Сделано с капелькой смущения ♡</footer>
+    <section class="links" id="links"></section>
+<footer>Кирпич Крыса • <span id="year"></span></footer>
   </main>
 
-  <dialog id="pollDialog">
-    <form id="pollForm">
-      <button class="close" type="button" id="closePoll" aria-label="Закрыть">×</button>
-      <p class="eyebrow">всего один вопрос</p>
-      <h2>Нравлюсь ли я вам? 🙈</h2>
-
-      <div class="choice-row">
-        <label class="choice"><input type="radio" name="liked" value="true" required /><span>Да 💗</span></label>
-        <label class="choice"><input type="radio" name="liked" value="false" required /><span>Нет</span></label>
-      </div>
-
-      <fieldset>
-        <legend>Ваш возраст</legend>
-        <div class="age-grid">
-          <label><input type="radio" name="age" value="14-" required><span>14-</span></label>
-          <label><input type="radio" name="age" value="14"><span>14</span></label>
-          <label><input type="radio" name="age" value="15"><span>15</span></label>
-          <label><input type="radio" name="age" value="16"><span>16</span></label>
-          <label><input type="radio" name="age" value="17"><span>17</span></label>
-          <label><input type="radio" name="age" value="18"><span>18</span></label>
-          <label><input type="radio" name="age" value="19"><span>19</span></label>
-          <label><input type="radio" name="age" value="20"><span>20</span></label>
-          <label><input type="radio" name="age" value="21"><span>21</span></label>
-          <label><input type="radio" name="age" value="22"><span>22</span></label>
-          <label><input type="radio" name="age" value="23+"><span>23+</span></label>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Ваш пол</legend>
-        <div class="choice-row">
-          <label class="choice"><input type="radio" name="gender" value="Мужчина" required /><span>Мужчина</span></label>
-          <label class="choice"><input type="radio" name="gender" value="Женщина" required /><span>Женщина</span></label>
-        </div>
-      </fieldset>
-
-      <p class="form-note" id="formNote"></p>
-      <button class="primary full" type="submit">Отправить 💌</button>
-    </form>
-  </dialog>
-
-  <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore-compat.js"></script>
-  <script src="app.js?v=6-firebase"></script>
+<script src="script.js?v=3"></script>
+<script src="secret.js?v=1"></script>
 </body>
 </html>
