@@ -1,5 +1,5 @@
-const SUPABASE_URL = "PASTE_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://wwvtvmiewhtlzfdkuikcn.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_RQ8N8MoKX_nq1WY1Hu5WCA_Ki9UX13_";
 
 const VIDEO_ENABLED = true;
 const VIDEO_FILE = "profile-video.mp4";
@@ -11,8 +11,12 @@ const dialog = document.getElementById("pollDialog");
 const form = document.getElementById("pollForm");
 const note = document.getElementById("formNote");
 const notice = document.getElementById("backendNotice");
+const submitButton = form.querySelector('button[type="submit"]');
 
-document.getElementById("openPoll").onclick = () => dialog.showModal();
+document.getElementById("openPoll").onclick = () => {
+  note.textContent = "";
+  dialog.showModal();
+};
 document.getElementById("closePoll").onclick = () => dialog.close();
 
 if (VIDEO_ENABLED) {
@@ -30,7 +34,11 @@ function pluralVotes(n){
 }
 
 function renderChips(el, rows, key){
-  if(!rows.length){ el.textContent="Пока нет данных"; return; }
+  if(!rows.length){
+    el.classList.add("muted");
+    el.textContent="Пока нет данных";
+    return;
+  }
   const counts = {};
   rows.forEach(r => counts[r[key]] = (counts[r[key]] || 0) + 1);
   const total = rows.length;
@@ -42,6 +50,7 @@ function renderChips(el, rows, key){
 
 async function loadStats(){
   if(!configured){
+    notice.hidden = false;
     notice.textContent = "Статистика появится после подключения базы.";
     return;
   }
@@ -49,6 +58,7 @@ async function loadStats(){
   const { data, error } = await db.from("votes").select("liked,age_bucket,gender");
 
   if(error){
+    notice.hidden = false;
     notice.textContent = "Не удалось загрузить статистику.";
     console.error(error);
     return;
@@ -73,9 +83,10 @@ async function loadStats(){
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  note.textContent = "";
 
   if(!configured){
-    note.textContent = "Сначала нужно подключить базу — я помогу это сделать.";
+    note.textContent = "База пока не подключена.";
     return;
   }
 
@@ -85,13 +96,28 @@ form.addEventListener("submit", async (e) => {
   }
 
   const fd = new FormData(form);
+  const age = fd.get("age");
+  const gender = fd.get("gender");
+  const likedRaw = fd.get("liked");
+
+  if(likedRaw === null || !age || !gender){
+    note.textContent = "Выбери ответ, возраст и пол.";
+    return;
+  }
+
   const payload = {
-    liked: fd.get("liked") === "true",
-    age_bucket: fd.get("age"),
-    gender: fd.get("gender")
+    liked: likedRaw === "true",
+    age_bucket: age,
+    gender
   };
 
+  submitButton.disabled = true;
+  submitButton.textContent = "Отправляем…";
+
   const { error } = await db.from("votes").insert(payload);
+
+  submitButton.disabled = false;
+  submitButton.textContent = "Отправить 💌";
 
   if(error){
     note.textContent = "Что-то пошло не так. Попробуй ещё раз.";
@@ -101,8 +127,9 @@ form.addEventListener("submit", async (e) => {
 
   localStorage.setItem("poll_voted_v1","1");
   note.textContent = "Спасибо 💗";
+  form.reset();
   await loadStats();
-  setTimeout(() => dialog.close(), 650);
+  setTimeout(() => dialog.close(), 700);
 });
 
 loadStats();
