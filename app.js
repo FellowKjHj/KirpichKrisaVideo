@@ -120,8 +120,9 @@ form.addEventListener("submit", async (e) => {
   submitButton.textContent = "Отправить 💌";
 
   if(error){
-    note.textContent = "Что-то пошло не так. Попробуй ещё раз.";
-    console.error(error);
+    const parts = [error.code, error.message, error.details, error.hint].filter(Boolean);
+    note.textContent = "Ошибка Supabase: " + parts.join(" | ");
+    console.error("Supabase insert error:", error);
     return;
   }
 
