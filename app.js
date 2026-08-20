@@ -1,7 +1,7 @@
 const SUPABASE_URL = "PASTE_SUPABASE_URL";
 const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY";
 
-const VIDEO_ENABLED = false;
+const VIDEO_ENABLED = true;
 const VIDEO_FILE = "profile-video.mp4";
 
 const configured = !SUPABASE_URL.includes("PASTE_") && !SUPABASE_ANON_KEY.includes("PASTE_");
